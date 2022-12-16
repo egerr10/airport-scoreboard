@@ -1,0 +1,25 @@
+.blue-wrap {
+  min-height: 400px;
+  background-color: #0098db;
+  padding: 80px 0 100px;
+}
+
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner,
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  color: #0098db;
+  background-color: white;
+  border-color: white;
+  box-shadow: 0 0 0 0 #409eff;
+}
+
+.el-radio-button__inner {
+  background: #0098db;
+  color: white;
+  border: 1px solid white;
+
+  &:hover {
+    color: #0098db;
+    background-color: white;
+  }
+}

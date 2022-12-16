@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=block');
+
+
+/*@font-face {
+  font-family: 'Inter';
+  src: url(/src/assets/fonts/inter/Inter-Light.ttf);
+  font-weight: 300;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url(/src/assets/fonts/inter/Inter-Regular.ttf);
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url(/src/assets/fonts/inter/Inter-Bold.ttf);
+  font-weight: 600;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url(/src/assets/fonts/inter/Inter-ExtraBold.ttf);
+  font-weight: 900;
+  font-display: block;
+}*/
+
+
+$textWhite: #FFFFFF;
+$textDark: #154364;
+$textGray: #69879C;
+$textLightGray: #B4C2CD;
+$textBlue: #0096FF;
+$textLightBlue: #BDDDF5;
+$textOrange: #FF8D7A;
+
+$borderBlue: #0096FF;
+$borderLightBlue: #BDDDF5;
+$borderGray: #B4C2CD;
+
+$backgroundDark: #154364;
+$backgroundGray: #69879C;
+$backgroundBlue: #0096FF;
+$backgroundMediumBlue: #BDDDF5;
+$backgroundLightBlue: #EFF8FF;
+
+$editorBalloonBorder: #c4e7ff;
+
+
+
+h1 {
+  font-weight: 900  ;
+  color: $textDark;
+  margin: 0;
+}
+
+.text_b {
+  font-weight: 600;
+}
+.text_b_900 {
+  font-weight: 900;
+}
+
+.text_300 {
+  font-weight: 300;
+}
+
+.text_white {
+  color: white;
+}
+
+.text_dark {
+  color: $textDark;
+}
+.text_black {
+  color: #000000FF;
+}
+
+.text_gray {
+  color: $textGray;
+}
+
+.text_lightgray {
+  color: $textLightGray;
+}
+
+.text_green {
+  color: #00bc00;
+}
+
+.text_blue {
+  color: $textBlue;
+}
+
+.text_orange {
+  color: $textOrange;
+}
+
+.text_red {
+  color: red;
+}
+
+.text_light_blue {
+  color: $textLightBlue;
+}
+
+.text_red {
+  color: red;
+}
+
+.text_60 {
+  font-size: 60px;
+  line-height: 120%;
+}
+
+.text_48 {
+  font-size: 48px;
+  line-height: 120%;
+}
+
+.text_40 {
+  font-size: 40px;
+  line-height: 120%;
+}
+
+.text_32 {
+  font-size: 32px;
+  line-height: 120%;
+}
+
+.text_24 {
+  font-size: 24px;
+  line-height: 120%;
+}
+
+.text_22 {
+  font-size: 22px;
+  line-height: 120%;
+}
+
+.text_20 {
+  font-size: 20px;
+  line-height: 120%;
+}
+
+.text_18 {
+  font-size: 18px;
+  line-height: 120%;
+}
+.text_16 {
+  font-size: 16px;
+  line-height: 120%;
+}
+.text_15 {
+  font-size: 15px;
+  line-height: 120%;
+}
+.text_14 {
+  font-size: 14px;
+  line-height: 120%;
+}
+.text_13 {
+  font-size: 13px;
+  line-height: 120%;
+}
+.text_12 {
+  font-size: 12px;
+  line-height: 120%;
+}
+.text_10 {
+  font-size: 10px;
+  line-height: 120%;
+}
+.text_8 {
+  font-size: 8px;
+  line-height: 120%;
+}
+
+.text_ac {
+  text-align: center;
+}
+
+.text_dec_ul {
+  text-decoration-line: underline;
+}
+
+.text_i {
+  font-style: italic;
+}
+
+.text_ar {
+  text-align: right;
+}
+
+.lh_1 {
+  line-height: 1;
+}
