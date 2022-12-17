@@ -11,21 +11,6 @@
       </el-button>
     </div>
 
-    <el-select
-      v-model="val"
-      remote
-      :remote-method="remoteMethod"
-      filterable
-      placeholder="Select"
-    >
-      <el-option
-        v-for="item in test"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id">
-      </el-option>
-    </el-select>
-
     <el-table
       :data="search"
       style="width: 100%">
@@ -95,18 +80,9 @@ export default {
   components: { FlightEditForm },
   data() {
     return {
-      searchQuery: '',
       flight: null,
+      searchQuery: '',
       formVisible: false,
-      savedAirline: [
-        {
-          id: 'VrPCiCLw5k4teMtjgQ54',
-          logoLink: '//upload.wikimedia.org/wikipedia/commons/thumb/f/f9/2GO_Group_Logo.png/250px-2GO_Group_Logo.png',
-          name: '2GO',
-          website: 'http://www.2go.com.ph/',
-        },
-      ],
-      val: 'VrPCiCLw5k4teMtjgQ54',
     };
   },
   computed: {
@@ -119,9 +95,6 @@ export default {
     },
   },
   methods: {
-    remoteMethod(query) {
-      this.$store.dispatch(GET_AIRLINES, query);
-    },
     handleEdit() {},
     handleDelete() {},
   },
