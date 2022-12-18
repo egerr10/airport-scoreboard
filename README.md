@@ -50,4 +50,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 # LICENSE
 
-[a GPL](LICENSE.md)
+[GPL](LICENSE.md)
