@@ -1,4 +1,5 @@
 .blue-wrap {
+  position: relative;
   min-height: 400px;
   background-color: #0098db;
 }
@@ -8,6 +9,15 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.plane {
+  position: absolute;
+  height: 200px;
+  top: 110px;
+  right: 0;
+  transform: rotate3d(1, 60, 4, 155deg);
+  opacity: 0.8;
 }
 
 .el-radio-button__orig-radio:checked+.el-radio-button__inner,
@@ -27,6 +37,10 @@
     color: #0098db;
     background-color: white;
   }
+}
+
+.el-popconfirm__main {
+  margin-bottom: 10px;
 }
 
 .airline-logo {

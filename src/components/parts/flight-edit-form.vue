@@ -190,7 +190,7 @@ export default {
     addFlight(data) {
       this.$store.dispatch(FLIGHT_ADD, data).then(() => {
         this.$message({
-          message: 'Вылет успешно добавлен',
+          message: 'Рейс успешно добавлен',
           type: 'success',
         });
 
@@ -203,7 +203,7 @@ export default {
     saveFlight(data) {
       this.$store.dispatch(FLIGHT_UPDATE, data).then(() => {
         this.$message({
-          message: 'Вылет успешно сохранен',
+          message: 'Рейс успешно сохранен',
           type: 'success',
         });
 

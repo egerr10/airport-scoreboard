@@ -8,12 +8,18 @@
           </el-tooltip>
         </div>
 
-        <h1 class="text_60 text_white mb_40">Онлайн-табло</h1>
+        <p style="font-size: 80px;" class="text_white text_b mb_20">
+          Кольцово
+        </p>
+
+        <p class="text_40 text_white mb_40">Онлайн-табло</p>
 
         <el-radio-group v-model="component">
           <el-radio-button label="ScoreboardDeparture" border>Вылет</el-radio-button>
           <el-radio-button label="ScoreboardArrival" border>Прилёт</el-radio-button>
         </el-radio-group>
+
+        <img class="plane" src="/back-img.png" alt="">
       </div>
     </div>
 
