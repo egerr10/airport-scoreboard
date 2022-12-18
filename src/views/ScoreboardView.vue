@@ -2,9 +2,13 @@
   <div>
     <div class="blue-wrap">
       <div class="container">
-        <h1 class="text_60 text_white mb_40">Онлайн-табло</h1>
+        <div class="top-bar">
+          <el-tooltip class="item" effect="dark" :content="changeRoleTitle" placement="bottom-end">
+            <i class="text_24 text_white cp" :class="userIcon" @click="changeRole" />
+          </el-tooltip>
+        </div>
 
-        <el-button @click="addFlight">test</el-button>
+        <h1 class="text_60 text_white mb_40">Онлайн-табло</h1>
 
         <el-radio-group v-model="component">
           <el-radio-button label="ScoreboardDeparture" border>Вылет</el-radio-button>
@@ -20,10 +24,10 @@
 </template>
 
 <script>
-import { ADD_FLIGHT, FLIGHTS_LIST_REQUEST } from '@/store/actions/flights';
+import { mapGetters } from 'vuex';
+import { USER_ROLE_CHANGE } from '@/store/actions/dictionary';
 import ScoreboardArrival from '@/components/scoreboard-arrival';
 import ScoreboardDeparture from '@/components/scoreboard-departure';
-import { GET_AIRLINES, GET_CITIES } from '@/store/actions/dictionary';
 
 export default {
   name: 'ScoreboardView',
@@ -33,13 +37,23 @@ export default {
       component: 'ScoreboardDeparture',
     };
   },
-  mounted() {
-    this.$store.dispatch(GET_CITIES, 'Омск');
-    this.$store.dispatch(GET_AIRLINES, 'аааааа');
+  created() {
+    if (this.$route.query.admin) {
+      this.changeRole();
+    }
+  },
+  computed: {
+    ...mapGetters(['dictionary']),
+    userIcon() {
+      return this.dictionary.isAdmin ? 'el-icon-s-custom' : 'el-icon-user';
+    },
+    changeRoleTitle() {
+      return this.dictionary.isAdmin ? 'Переключиться в режим пользователя' : 'Переключиться в режим администратора';
+    },
   },
   methods: {
-    addFlight() {
-      this.$store.dispatch(ADD_FLIGHT, this.arr);
+    changeRole() {
+      this.$store.commit(USER_ROLE_CHANGE);
     },
   },
 };

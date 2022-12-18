@@ -1,9 +1,14 @@
 .blue-wrap {
   min-height: 400px;
   background-color: #0098db;
-  padding: 80px 0 100px;
 }
 
+.top-bar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
 .el-radio-button__orig-radio:checked+.el-radio-button__inner,
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
@@ -22,4 +27,8 @@
     color: #0098db;
     background-color: white;
   }
+}
+
+.airline-logo {
+  max-width: 100px;
 }

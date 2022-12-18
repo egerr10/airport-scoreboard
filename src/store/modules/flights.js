@@ -9,11 +9,10 @@ import dayjs from 'dayjs';
 import {
   FLIGHTS_LIST_REQUEST,
   FLIGHTS_LIST_SUCCESS,
-  FLIGHTS_LIST_EMPTY,
-  DELETE_FLIGHT,
-  EDIT_FLIGHT,
-  ADD_FLIGHT,
-  MANAGE_DATA_ERROR, PATH_SET,
+  FLIGHT_ADD,
+  FLIGHT_UPDATE,
+  FLIGHT_DELETE,
+  TYPE_SET,
 } from '../actions/flights';
 
 const firebaseConfig = {
@@ -32,7 +31,7 @@ const db = getFirestore(app);
 const state = {
   flights: {
     items: [],
-    path: '',
+    type: '',
     loading: false,
   },
 };
@@ -45,9 +44,7 @@ const actions = {
   async [FLIGHTS_LIST_REQUEST]({ commit }) {
     commit(FLIGHTS_LIST_REQUEST);
 
-    const orderByVal = state.flights.path === 'arrival' ? 'arrivalAt' : 'departureAt';
-
-    const q = query(collection(db, state.flights.path), orderBy(orderByVal));
+    const q = query(collection(db, 'flights'), where('type', '==', state.flights.type), orderBy('dateTime'));
 
     const querySnapshot = await getDocs(q);
 
@@ -65,37 +62,18 @@ const actions = {
       commit(FLIGHTS_LIST_SUCCESS, []);
     }
   },
-  async [ADD_FLIGHT]({ dispatch }) {
-    // eslint-disable-next-line guard-for-in,no-restricted-syntax
-    /* for (const key in arr) {
-      addDoc(collection(db, 'airlines'), arr[key]);
-    } */
-
-    /* arr.forEach((item) => {
-      addDoc(collection(db, 'cities'), { name: item });
-    }); */
-
-    /* await setDoc(doc(db, 'dictionary', 'cities'), {
-      items: arr,
-    }); */
-
-    const flight = {
-      arrivalAt: dayjs().format(),
-      departureAt: dayjs().format(),
-      airline: 'Победа',
-      flightNumber: 'P213',
-      from: 'Москва',
-      to: 'Караганда',
-      filter: 'P213_Москва_Караганда',
-    };
-
-    const newFlight = await addDoc(collection(db, state.flights.path), flight);
+  async [FLIGHT_ADD]({ dispatch }, flight) {
+    const newFlight = await addDoc(collection(db, 'flights'), flight);
     dispatch(FLIGHTS_LIST_REQUEST);
 
     return newFlight;
   },
-  async [DELETE_FLIGHT]({ dispatch }, flight) {
-    await deleteDoc(doc(db, 'arrival', flight));
+  async [FLIGHT_UPDATE]({ dispatch }, flight) {
+    await setDoc(doc(db, 'flights', flight.id), flight);
+    dispatch(FLIGHTS_LIST_REQUEST);
+  },
+  async [FLIGHT_DELETE]({ dispatch }, flight) {
+    await deleteDoc(doc(db, 'flights', flight.id));
     dispatch(FLIGHTS_LIST_REQUEST);
   },
 };
@@ -108,8 +86,8 @@ const mutations = {
     state.flights.items = flights;
     state.flights.loading = false;
   },
-  [PATH_SET]: (state, path) => {
-    state.flights.path = path;
+  [TYPE_SET]: (state, type) => {
+    state.flights.type = type;
   },
 };
 

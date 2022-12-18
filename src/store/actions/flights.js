@@ -1,10 +1,8 @@
 export const FLIGHTS_LIST_REQUEST = 'FLIGHTS_LIST_REQUEST';
 export const FLIGHTS_LIST_SUCCESS = 'FLIGHTS_LIST_SUCCESS';
-export const FLIGHTS_LIST_EMPTY = 'FLIGHTS_LIST_EMPTY';
 
-export const ADD_FLIGHT = 'ADD_FLIGHT';
-export const EDIT_FLIGHT = 'EDIT_FLIGHT';
-export const DELETE_FLIGHT = 'DELETE_FLIGHT';
-export const MANAGE_DATA_ERROR = 'MANAGE_DATA_ERROR';
+export const FLIGHT_ADD = 'FLIGHT_ADD';
+export const FLIGHT_UPDATE = 'FLIGHT_UPDATE';
+export const FLIGHT_DELETE = 'FLIGHT_DELETE';
 
-export const PATH_SET = 'PATH_SET';
+export const TYPE_SET = 'TYPE_SET';

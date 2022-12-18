@@ -6,7 +6,7 @@
         size="small"
         placeholder="Поиск"/>
 
-      <el-button size="small" type="success" class="ml_24" @click="formVisible = true">
+      <el-button v-if="dictionary.isAdmin" size="small" type="success" class="ml_24" @click="formVisible = true">
         Добавить рейс
       </el-button>
     </div>
@@ -19,14 +19,13 @@
         label="Время по расписанию"
         min-width="180">
         <template slot-scope="scope">
-          <p>{{$dayjs(scope.row.departureAt).utc(true).format('DD.MM LT')}}</p>
-          <p>{{$dayjs(scope.row.arrivalAt).utc(true).format('L LT')}}</p>
+          <p>{{$dayjs(scope.row.dateTime).utc(true).format('DD.MM LT')}}</p>
         </template>
       </el-table-column>
 
       <el-table-column
         label="№ рейса"
-        min-width="180">
+        min-width="100">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.flightNumber }}</span>
         </template>
@@ -36,7 +35,10 @@
         label="Авиакомпания"
         min-width="180">
         <template slot-scope="scope">
-          <p>{{scope.row.airline}}</p>
+          <el-tooltip v-if="scope.row.airline.logoLink" class="item" effect="dark" :content="scope.row.airline.name" placement="top-start">
+            <img :src="scope.row.airline.logoLink" class="airline-logo" alt="">
+          </el-tooltip>
+          <p v-else>{{scope.row.airline.name}}</p>
         </template>
       </el-table-column>
 
@@ -44,36 +46,54 @@
         label="Направление"
         min-width="180">
         <template slot-scope="scope">
-          <p>{{scope.row.from}} - {{scope.row.to}}</p>
+          <p>{{scope.row.direction}}</p>
         </template>
       </el-table-column>
 
       <el-table-column
+        label="Статус"
+        min-width="180">
+        <template slot-scope="scope">
+          <p :class="statusColor(scope.row.dateTime)">
+            {{statusTitle(scope.row.dateTime)}}
+          </p>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        v-if="dictionary.isAdmin"
         align="right"
         min-width="200">
-        <template v-if="false" slot-scope="scope">
+        <template slot-scope="scope">
           <el-button
+            class="mr_8"
             icon="el-icon-edit"
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)" />
+            @click="handleEdit(scope.row)" />
 
-          <el-button
-            size="mini"
-            icon="el-icon-delete"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)" />
+          <el-popconfirm
+            title="Удалить рейс?"
+            @confirm="handleDelete(scope.row)"
+          >
+            <el-button
+              size="mini"
+              icon="el-icon-delete"
+              type="danger"
+              slot="reference"
+            />
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
 
-    <flight-edit-form :flight="flight" :form-visible.sync="formVisible" />
+    <flight-edit-form :flight.sync="flight" :form-visible.sync="formVisible" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { GET_AIRLINES } from '@/store/actions/dictionary';
 import FlightEditForm from '@/components/parts/flight-edit-form';
+import { FLIGHT_DELETE } from '@/store/actions/flights';
 
 export default {
   name: 'scoreboard-table',
@@ -90,17 +110,29 @@ export default {
     search() {
       return this.flights.items.filter((item) => item?.filter.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
-    test() {
-      return this.dictionary.airlines.length ? this.dictionary.airlines : this.savedAirline;
-    },
   },
   methods: {
-    handleEdit() {},
-    handleDelete() {},
+    statusTitle(dateTime) {
+      return this.$dayjs().isAfter(this.$dayjs(dateTime)) ? 'Прибыл' : 'Ожидается';
+    },
+    statusColor(dateTime) {
+      return {
+        green: this.$dayjs().isAfter(this.$dayjs(dateTime)),
+      };
+    },
+    handleEdit(flight) {
+      this.flight = flight;
+      this.formVisible = true;
+    },
+    handleDelete(flight) {
+      this.$store.dispatch(FLIGHT_DELETE, flight);
+    },
   },
 };
 </script>
 
 <style scoped>
-
+.green {
+  color: #00bc00;
+}
 </style>

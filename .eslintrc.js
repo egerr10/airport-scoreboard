@@ -15,6 +15,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': 'off',
     'no-unused-vars': 'off',
+    'vuejs-accessibility/click-events-have-key-events': 'off',
     'import/extensions': ['error', 'always', {
       js: 'never',
       mjs: 'never',

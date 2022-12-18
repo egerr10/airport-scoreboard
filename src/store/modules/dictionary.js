@@ -5,9 +5,8 @@ import {
   collection, getDocs, getFirestore, query, where, orderBy, addDoc, deleteDoc, doc, setDoc, limit,
 } from 'firebase/firestore';
 
-import dayjs from 'dayjs';
 import {
-  GET_CITIES, GET_AIRLINES,
+  CITIES_GET, AIRLINES_GET, USER_ROLE_CHANGE,
 } from '../actions/dictionary';
 
 const firebaseConfig = {
@@ -27,6 +26,7 @@ const state = {
   dictionary: {
     cities: [],
     airlines: [],
+    isAdmin: false,
   },
 };
 
@@ -35,8 +35,13 @@ const getters = {
 };
 
 const actions = {
-  async [GET_CITIES]({ commit }, querySearch) {
-    const q = query(collection(db, 'cities'), where('name', '>=', querySearch), orderBy('name'), limit(5));
+  async [CITIES_GET]({ commit }, querySearch) {
+    const q = query(
+      collection(db, 'cities'),
+      where('name', '>=', querySearch),
+      orderBy('name'),
+      limit(5),
+    );
 
     const querySnapshot = await getDocs(q);
 
@@ -47,13 +52,13 @@ const actions = {
         cities.push(item.data());
       });
 
-      commit(GET_CITIES, cities);
+      commit(CITIES_GET, cities);
     } else {
-      commit(GET_CITIES, []);
+      commit(CITIES_GET, []);
     }
   },
 
-  async [GET_AIRLINES]({ commit }, querySearch) {
+  async [AIRLINES_GET]({ commit }, querySearch) {
     const q = query(collection(db, 'airlines'), where('name', '>=', querySearch), orderBy('name'), limit(5));
 
     const querySnapshot = await getDocs(q);
@@ -67,19 +72,22 @@ const actions = {
         airlines.push(airline);
       });
 
-      commit(GET_AIRLINES, airlines);
+      commit(AIRLINES_GET, airlines);
     } else {
-      commit(GET_AIRLINES, []);
+      commit(AIRLINES_GET, []);
     }
   },
 };
 
 const mutations = {
-  [GET_CITIES]: (state, cities) => {
+  [CITIES_GET]: (state, cities) => {
     state.dictionary.cities = cities.map((item) => item.name);
   },
-  [GET_AIRLINES]: (state, airlines) => {
+  [AIRLINES_GET]: (state, airlines) => {
     state.dictionary.airlines = airlines;
+  },
+  [USER_ROLE_CHANGE]: (state) => {
+    state.dictionary.isAdmin = !state.dictionary.isAdmin;
   },
 };
 
