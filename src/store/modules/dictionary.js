@@ -73,8 +73,10 @@ const actions = {
 
       querySnapshot.forEach((item) => {
         const airline = item.data();
-        airline.id = item.id;
-        airlines.push(airline);
+        if (airline.logoLink) {
+          airline.id = item.id;
+          airlines.push(airline);
+        }
       });
 
       commit(AIRLINES_GET, airlines);

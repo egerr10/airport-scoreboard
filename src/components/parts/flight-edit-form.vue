@@ -78,7 +78,7 @@ import { FLIGHT_ADD, FLIGHT_UPDATE } from '@/store/actions/flights';
 
 class Flight {
   constructor(flight, type) {
-    this.id = flight?.id || null;
+    this.id = flight?.id;
     this.airline = flight?.airline;
     this.airlineId = flight?.airlineId;
     this.flightNumber = flight?.flightNumber;
@@ -132,7 +132,8 @@ export default {
   computed: {
     ...mapGetters(['dictionary', 'flights']),
     airlines() { // селекту нужен словарь, берем его из объекта вылета, если он существует и добавляем в начало массива, если его там нет.
-      return this.flightEdit?.airlineId && !this.dictionary.airlines.length ? [this.flightEdit?.airline, ...[]] : this.dictionary.airlines;
+      return this.flightEdit?.airlineId && !this.dictionary.airlines.length
+        ? [this.flightEdit?.airline, ...[]] : this.dictionary.airlines;
     },
     titles() {
       return {
@@ -146,7 +147,7 @@ export default {
   methods: {
     init() {
       this.flightEdit = this.flight ? new Flight(this.flight) : new Flight(null, this.flights.type);
-      console.log(this.flightEdit);
+      this.getAirlines(this.flightEdit.airline?.name ?? '');
     },
     closed() {
       this.$emit('update:formVisible', false);
@@ -172,6 +173,10 @@ export default {
           this.flightEdit.filter = this.flightEdit.getFilter();
           const { ...data } = this.flightEdit;
           data.dateTime = this.$dayjs(data.dateTime).format('YYYY-MM-DDTHH:mm:ss');
+
+          if (!data.id) {
+            delete data.id;
+          }
 
           if (this.flightEdit.id) {
             this.saveFlight(data);
@@ -201,6 +206,8 @@ export default {
           message: 'Вылет успешно сохранен',
           type: 'success',
         });
+
+        this.dialogVisible = false;
       });
     },
     capitalize(s) {

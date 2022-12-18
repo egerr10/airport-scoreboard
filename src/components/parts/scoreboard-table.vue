@@ -35,10 +35,9 @@
         label="Авиакомпания"
         min-width="180">
         <template slot-scope="scope">
-          <el-tooltip v-if="scope.row.airline.logoLink" class="item" effect="dark" :content="scope.row.airline.name" placement="top-start">
-            <img :src="scope.row.airline.logoLink" class="airline-logo" alt="">
+          <el-tooltip class="item" effect="dark" :content="scope.row.airline.name" placement="top-start">
+            <img :src="scope.row.airline.logoLink" class="airline-logo" :alt="scope.row.airline.name">
           </el-tooltip>
-          <p v-else>{{scope.row.airline.name}}</p>
         </template>
       </el-table-column>
 
