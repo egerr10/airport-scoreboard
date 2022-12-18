@@ -2,12 +2,20 @@
   <el-dialog
     :title="titles.dialogTitle"
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     width="600px"
     @open="init"
     @closed="closed"
   >
 
-    <el-form v-if="flightEdit" :model="flightEdit" :rules="rules" label-position="top" ref="flightForm" @submit.native.prevent>
+    <el-form
+      v-if="flightEdit"
+      :model="flightEdit"
+      :rules="rules"
+      label-position="top"
+      ref="flightForm"
+      @submit.native.prevent
+    >
       <div class="flex">
         <el-form-item class="mr_32" :label="titles.direction" prop="direction">
           <el-autocomplete
@@ -182,6 +190,9 @@ export default {
         });
 
         this.init();
+        this.$nextTick(() => {
+          this.$refs.flightForm.clearValidate();
+        });
       });
     },
     saveFlight(data) {

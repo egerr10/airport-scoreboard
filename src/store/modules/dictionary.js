@@ -40,7 +40,7 @@ const actions = {
       collection(db, 'cities'),
       where('name', '>=', querySearch),
       orderBy('name'),
-      limit(5),
+      limit(10),
     );
 
     const querySnapshot = await getDocs(q);
@@ -59,7 +59,12 @@ const actions = {
   },
 
   async [AIRLINES_GET]({ commit }, querySearch) {
-    const q = query(collection(db, 'airlines'), where('name', '>=', querySearch), orderBy('name'), limit(5));
+    const q = query(
+      collection(db, 'airlines'),
+      where('name', '>=', querySearch),
+      orderBy('name'),
+      limit(10),
+    );
 
     const querySnapshot = await getDocs(q);
 
