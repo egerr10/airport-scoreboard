@@ -44,7 +44,11 @@ const actions = {
   async [FLIGHTS_LIST_REQUEST]({ commit }) {
     commit(FLIGHTS_LIST_REQUEST);
 
-    const q = query(collection(db, 'flights'), where('type', '==', state.flights.type), orderBy('dateTime'));
+    const q = query(
+      collection(db, 'flights'),
+      where('type', '==', state.flights.type),
+      orderBy('dateTime'),
+    );
 
     const querySnapshot = await getDocs(q);
 
