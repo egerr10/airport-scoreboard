@@ -4,7 +4,6 @@
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     width="600px"
-    @open="init"
     @closed="closed"
   >
 
@@ -32,7 +31,13 @@
         </el-form-item>
 
         <el-form-item :label="titles.dateTime" prop="dateTime">
-          <el-date-picker type="datetime" :picker-options=pickerOptions placeholder="Выберите дату и время" v-model="flightEdit.dateTime" />
+          <el-date-picker
+            type="datetime"
+            format="dd-MM-yyyy HH:mm"
+            :picker-options=pickerOptions
+            placeholder="Дата время"
+            v-model="flightEdit.dateTime"
+          />
         </el-form-item>
       </div>
 
@@ -95,7 +100,6 @@ class Flight {
 
 export default {
   name: 'flight-edit-form',
-  props: ['formVisible', 'flight'],
   data() {
     return {
       dialogVisible: false,
@@ -124,11 +128,6 @@ export default {
       },
     };
   },
-  watch: {
-    formVisible(val) {
-      this.dialogVisible = val;
-    },
-  },
   computed: {
     ...mapGetters(['dictionary', 'flights']),
     airlines() { // селекту нужен словарь, берем его из объекта вылета, если он существует и добавляем в начало массива, если его там нет.
@@ -145,13 +144,11 @@ export default {
     },
   },
   methods: {
-    init() {
-      this.flightEdit = this.flight ? new Flight(this.flight) : new Flight(null, this.flights.type);
-      this.getAirlines(this.flightEdit.airline?.name ?? '');
+    open(flight) {
+      this.flightEdit = flight ? new Flight(flight) : new Flight(null, this.flights.type);
+      this.dialogVisible = true;
     },
     closed() {
-      this.$emit('update:formVisible', false);
-      this.$emit('update:flight', null);
       this.flightEdit = null;
     },
     getAirlines(query) { // запрашивает список авиакомпаний для селекта
@@ -178,7 +175,7 @@ export default {
             delete data.id;
           }
 
-          if (this.flightEdit.id) {
+          if (data.id) {
             this.saveFlight(data);
           } else {
             this.addFlight(data);
@@ -194,10 +191,7 @@ export default {
           type: 'success',
         });
 
-        this.init();
-        this.$nextTick(() => {
-          this.$refs.flightForm.clearValidate();
-        });
+        this.dialogVisible = false;
       });
     },
     saveFlight(data) {

@@ -6,7 +6,7 @@
         size="small"
         placeholder="Поиск"/>
 
-      <el-button v-if="dictionary.isAdmin" size="small" type="success" class="ml_24" @click="formVisible = true">
+      <el-button v-if="dictionary.isAdmin" size="small" type="success" class="ml_24" @click="openDialogEditForm(null)">
         Добавить рейс
       </el-button>
     </div>
@@ -68,7 +68,7 @@
             class="mr_8"
             icon="el-icon-edit"
             size="mini"
-            @click="handleEdit(scope.row)" />
+            @click="openDialogEditForm(scope.row)" />
 
           <el-popconfirm
             title="Удалить рейс?"
@@ -85,7 +85,7 @@
       </el-table-column>
     </el-table>
 
-    <flight-edit-form :flight.sync="flight" :form-visible.sync="formVisible" />
+    <flight-edit-form ref="dialogEditForm" />
   </div>
 </template>
 
@@ -99,9 +99,7 @@ export default {
   components: { FlightEditForm },
   data() {
     return {
-      flight: null,
       searchQuery: '',
-      formVisible: false,
     };
   },
   computed: {
@@ -111,6 +109,12 @@ export default {
     },
   },
   methods: {
+    openDialogEditForm(flight) {
+      this.$refs.dialogEditForm.open(flight);
+    },
+    handleDelete(flight) {
+      this.$store.dispatch(FLIGHT_DELETE, flight);
+    },
     statusTitle(dateTime) {
       return this.$dayjs().isAfter(this.$dayjs(dateTime)) ? 'Прибыл' : 'Ожидается';
     },
@@ -118,13 +122,6 @@ export default {
       return {
         green: this.$dayjs().isAfter(this.$dayjs(dateTime)),
       };
-    },
-    handleEdit(flight) {
-      this.flight = flight;
-      this.formVisible = true;
-    },
-    handleDelete(flight) {
-      this.$store.dispatch(FLIGHT_DELETE, flight);
     },
   },
 };
