@@ -94,7 +94,7 @@ class Flight {
   }
 
   getFilter() {
-    return `${this.airline?.name}_${this.flightNumber}_${this.direction}`;
+    this.filter = `${this.airline?.name}_${this.flightNumber}_${this.direction}`;
   }
 }
 
@@ -167,7 +167,7 @@ export default {
     submitForm() {
       this.$refs.flightForm.validate((valid) => {
         if (valid) {
-          this.flightEdit.filter = this.flightEdit.getFilter();
+          this.flightEdit.getFilter();
           const { ...data } = this.flightEdit;
           data.dateTime = this.$dayjs(data.dateTime).format('YYYY-MM-DDTHH:mm:ss');
 
