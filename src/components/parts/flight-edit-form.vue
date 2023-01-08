@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     ...mapGetters(['dictionary', 'flights']),
-    airlines() { // селекту нужен словарь, берем его из объекта вылета, если он существует и добавляем в начало массива, если его там нет.
+    airlines() { // селекту нужен словарь, поэтому при редактировании берем его из вылета
       return this.flightEdit?.airlineId && !this.dictionary.airlines.length
         ? [this.flightEdit?.airline, ...[]] : this.dictionary.airlines;
     },
