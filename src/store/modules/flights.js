@@ -31,7 +31,7 @@ const db = getFirestore(app);
 const state = {
   flights: {
     items: [],
-    type: '',
+    type: 'departure',
     loading: false,
   },
 };

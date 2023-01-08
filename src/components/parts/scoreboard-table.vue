@@ -6,7 +6,7 @@
         size="small"
         placeholder="Поиск"/>
 
-      <el-button v-if="dictionary.isAdmin" size="small" type="success" class="ml_24" @click="openDialogEditForm(null)">
+      <el-button v-if="dictionary.isAdmin" size="small" type="success" class="ml_24" @click="openDialogEditForm">
         Добавить рейс
       </el-button>
     </div>

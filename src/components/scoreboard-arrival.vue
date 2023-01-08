@@ -11,7 +11,7 @@ export default {
   components: { ScoreboardTable },
   created() {
     this.$store.commit(TYPE_SET, 'arrival');
-    this.$store.dispatch(FLIGHTS_LIST_REQUEST, 'arrival');
+    this.$store.dispatch(FLIGHTS_LIST_REQUEST);
   },
 };
 </script>

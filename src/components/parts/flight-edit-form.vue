@@ -82,14 +82,14 @@ import { AIRLINES_GET, CITIES_GET } from '@/store/actions/dictionary';
 import { FLIGHT_ADD, FLIGHT_UPDATE } from '@/store/actions/flights';
 
 class Flight {
-  constructor(flight, type) {
-    this.id = flight?.id;
-    this.airline = flight?.airline;
-    this.airlineId = flight?.airlineId;
-    this.flightNumber = flight?.flightNumber;
-    this.direction = flight?.direction || '';
-    this.type = flight?.type || type;
-    this.dateTime = flight?.dateTime;
+  constructor(flight) {
+    this.id = flight.id;
+    this.airline = flight.airline;
+    this.airlineId = flight.airlineId;
+    this.flightNumber = flight.flightNumber;
+    this.direction = flight.direction;
+    this.type = flight.type;
+    this.dateTime = flight.dateTime;
     this.filter = null;
   }
 
@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     open(flight) {
-      this.flightEdit = flight ? new Flight(flight) : new Flight(null, this.flights.type);
+      this.flightEdit = flight.id ? new Flight(flight) : new Flight({ type: this.flights.type, direction: '' });
       this.dialogVisible = true;
     },
     closed() {
@@ -158,7 +158,7 @@ export default {
       this.$store.dispatch(CITIES_GET, this.capitalize(queryString));
       cb(this.dictionary.cities);
     },
-    setAirline(e) { // селект работает c примитивами, ввиду того, что нам надо сразу сохранить объект авикомпании, добавляем тут.
+    setAirline(e) { // селект работает c примитивами, ввиду того, что нам надо сразу сохранить объект авикомпании, делаем этот тут.
       this.flightEdit.airline = this.dictionary.airlines.find((item) => item.id === e);
     },
     cityHandleSelect(city) {
