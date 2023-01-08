@@ -12,10 +12,8 @@
 }
 
 .plane {
-  position: absolute;
+  align-self: flex-end;
   height: 200px;
-  top: 110px;
-  right: 0;
   transform: rotate3d(1, 60, 4, 155deg);
   opacity: 0.8;
 }
