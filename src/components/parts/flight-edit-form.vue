@@ -19,6 +19,7 @@
         <el-form-item class="mr_32" :label="titles.direction" prop="direction">
           <el-autocomplete
             style="width: 220px"
+            placeholder="Начните вводить"
             v-model="flightEdit.direction"
             :fetch-suggestions="citySuggestion"
             @select="cityHandleSelect"
@@ -50,7 +51,7 @@
             remote
             :remote-method="getAirlines"
             filterable
-            placeholder="Выбрать"
+            placeholder="Начните вводить"
             @change="setAirline"
           >
             <el-option
@@ -131,8 +132,8 @@ export default {
   computed: {
     ...mapGetters(['dictionary', 'flights']),
     airlines() { // селекту нужен словарь, поэтому при редактировании берем его из вылета
-      return this.flightEdit?.airlineId && !this.dictionary.airlines.length
-        ? [this.flightEdit?.airline, ...[]] : this.dictionary.airlines;
+      return this.flightEdit.airlineId && !this.dictionary.airlines.length
+        ? [this.flightEdit.airline] : this.dictionary.airlines;
     },
     titles() {
       return {
@@ -158,7 +159,7 @@ export default {
       this.$store.dispatch(CITIES_GET, this.capitalize(queryString));
       cb(this.dictionary.cities);
     },
-    setAirline(e) { // селект работает c примитивами, ввиду того, что нам надо сразу сохранить объект авикомпании, делаем этот тут.
+    setAirline(e) { // селект работает c примитивами, но нам надо сохранить объект авикомпании в вылете, делаем этот тут.
       this.flightEdit.airline = this.dictionary.airlines.find((item) => item.id === e);
     },
     cityHandleSelect(city) {
