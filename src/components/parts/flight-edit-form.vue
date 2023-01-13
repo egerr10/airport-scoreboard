@@ -160,7 +160,7 @@ export default {
         cb(this.dictionary.cities);
       });
     },
-    setAirline(e) { // селект работает c примитивами, но нам надо сохранить объект авикомпании в вылете, делаем этот тут.
+    setAirline(e) { // селект работает c примитивами, но нам надо сохранить объект авикомпании в вылете, делаем этот тут
       this.flightEdit.airline = this.dictionary.airlines.find((item) => item.id === e);
     },
     cityHandleSelect(city) {
