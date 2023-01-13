@@ -182,7 +182,6 @@ export default {
             this.addFlight(data);
           }
         }
-        return false;
       });
     },
     addFlight(data) {
