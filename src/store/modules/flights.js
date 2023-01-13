@@ -1,11 +1,9 @@
 /* eslint-disable no-shadow */
-
-import { initializeApp } from 'firebase/app';
+import db from '@/plugins/firebase';
 import {
-  collection, getDocs, getFirestore, query, where, orderBy, addDoc, deleteDoc, doc, setDoc,
+  collection, getDocs, query, where, orderBy, addDoc, deleteDoc, doc, setDoc,
 } from 'firebase/firestore';
 
-import dayjs from 'dayjs';
 import {
   FLIGHTS_LIST_REQUEST,
   FLIGHTS_LIST_SUCCESS,
@@ -15,29 +13,17 @@ import {
   TYPE_SET,
 } from '../actions/flights';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyANC3ujkVpixUF_ctmn15n0KESNVpmmGIA',
-  authDomain: 'airport-scoreboard.firebaseapp.com',
-  databaseURL: 'https://airport-scoreboard-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'airport-scoreboard',
-  storageBucket: 'airport-scoreboard.appspot.com',
-  messagingSenderId: '810866443431',
-  appId: '1:810866443431:web:b4d060fdf74ac8b0a8c782',
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 const state = {
   flights: {
     items: [],
-    type: 'departure',
     loading: false,
   },
+  flightType: 'departure',
 };
 
 const getters = {
   flights: () => state.flights,
+  flightType: () => state.flightType,
 };
 
 const actions = {
@@ -46,7 +32,7 @@ const actions = {
 
     const q = query(
       collection(db, 'flights'),
-      where('type', '==', state.flights.type),
+      where('type', '==', state.flightType),
       orderBy('dateTime'),
     );
 
@@ -91,7 +77,7 @@ const mutations = {
     state.flights.loading = false;
   },
   [TYPE_SET]: (state, type) => {
-    state.flights.type = type;
+    state.flightType = type;
   },
 };
 

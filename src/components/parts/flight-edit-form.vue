@@ -130,23 +130,23 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['dictionary', 'flights']),
+    ...mapGetters(['dictionary', 'flights', 'flightType']),
     airlines() { // селекту нужен словарь, поэтому при редактировании берем его из вылета
       return this.flightEdit.airlineId && !this.dictionary.airlines.length
         ? [this.flightEdit.airline] : this.dictionary.airlines;
     },
     titles() {
       return {
-        direction: this.flights?.type === 'arrival' ? 'Укажите город отправления' : 'Укажите город назначения',
-        dateTime: this.flights?.type === 'arrival' ? 'Укажите время прилёта' : 'Укажите время вылета',
-        dialogTitle: this.flights?.type === 'arrival' ? 'Редактирования прилета' : 'Редактирование вылета',
+        direction: this.flightType === 'arrival' ? 'Укажите город отправления' : 'Укажите город назначения',
+        dateTime: this.flightType === 'arrival' ? 'Укажите время прилёта' : 'Укажите время вылета',
+        dialogTitle: this.flightType === 'arrival' ? 'Редактирования прилета' : 'Редактирование вылета',
         saveButton: this.flightEdit?.id ? 'Сохранить вылет' : 'Добавить вылет',
       };
     },
   },
   methods: {
     open(flight) {
-      this.flightEdit = flight.id ? new Flight(flight) : new Flight({ type: this.flights.type, direction: '' });
+      this.flightEdit = flight.id ? new Flight(flight) : new Flight({ type: this.flightType, direction: '' });
       this.dialogVisible = true;
     },
     closed() {
@@ -156,8 +156,9 @@ export default {
       this.$store.dispatch(AIRLINES_GET, query);
     },
     citySuggestion(queryString, cb) { // запрашивает города для автокомплита
-      this.$store.dispatch(CITIES_GET, this.capitalize(queryString));
-      cb(this.dictionary.cities);
+      this.$store.dispatch(CITIES_GET, this.capitalize(queryString)).then(() => {
+        cb(this.dictionary.cities);
+      });
     },
     setAirline(e) { // селект работает c примитивами, но нам надо сохранить объект авикомпании в вылете, делаем этот тут.
       this.flightEdit.airline = this.dictionary.airlines.find((item) => item.id === e);
@@ -171,10 +172,6 @@ export default {
           this.flightEdit.getFilter();
           const { ...data } = this.flightEdit;
           data.dateTime = this.$dayjs(data.dateTime).format('YYYY-MM-DDTHH:mm:ss');
-
-          if (!data.id) {
-            delete data.id;
-          }
 
           if (data.id) {
             this.saveFlight(data);
