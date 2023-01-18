@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="flights.loading">
+  <div class="container mt_40" v-loading="flights.loading">
     <div class="flex mb_32">
       <el-input
         v-model="searchQuery"

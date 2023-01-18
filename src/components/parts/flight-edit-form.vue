@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     open(flight) {
-      this.flightEdit = flight.id ? new Flight(flight) : new Flight({ type: this.flightType, direction: '' });
+      this.flightEdit = flight.id ? new Flight(flight) : new Flight({ id: null, type: this.flightType, direction: '' });
       this.dialogVisible = true;
     },
     closed() {

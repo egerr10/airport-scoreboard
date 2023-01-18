@@ -16,9 +16,9 @@
 
             <p class="text_40 text_white mb_40">Онлайн-табло</p>
 
-            <el-radio-group v-model="component">
-              <el-radio-button label="ScoreboardDeparture" border>Вылет</el-radio-button>
-              <el-radio-button label="ScoreboardArrival" border>Прилёт</el-radio-button>
+            <el-radio-group v-model="type" @change="getFlights">
+              <el-radio-button label="departure" border>Вылет</el-radio-button>
+              <el-radio-button label="arrival" border>Прилёт</el-radio-button>
             </el-radio-group>
           </div>
 
@@ -27,33 +27,34 @@
       </div>
     </div>
 
-    <div class="container mt_40">
-      <component :is="component" />
-    </div>
+    <scoreboard-table />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { USER_ROLE_CHANGE } from '@/store/actions/dictionary';
-import ScoreboardArrival from '@/components/scoreboard-arrival';
-import ScoreboardDeparture from '@/components/scoreboard-departure';
+import ScoreboardTable from '@/components/parts/scoreboard-table';
+import { FLIGHTS_LIST_REQUEST, TYPE_SET } from '@/store/actions/flights';
 
 export default {
   name: 'ScoreboardView',
-  components: { ScoreboardDeparture, ScoreboardArrival },
+  components: { ScoreboardTable },
   data() {
     return {
-      component: 'ScoreboardDeparture',
+      type: null,
     };
   },
   created() {
+    this.type = this.flightType;
+    this.$store.dispatch(FLIGHTS_LIST_REQUEST);
+
     if (this.$route.query.admin) {
       this.changeRole();
     }
   },
   computed: {
-    ...mapGetters(['dictionary']),
+    ...mapGetters(['dictionary', 'flightType']),
     userIcon() {
       return this.dictionary.isAdmin ? 'el-icon-s-custom' : 'el-icon-user';
     },
@@ -64,6 +65,10 @@ export default {
   methods: {
     changeRole() {
       this.$store.commit(USER_ROLE_CHANGE);
+    },
+    getFlights() {
+      this.$store.commit(TYPE_SET, this.type);
+      this.$store.dispatch(FLIGHTS_LIST_REQUEST);
     },
   },
 };
